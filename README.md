@@ -1,4 +1,6 @@
 # projetoDACA
+Projeto da disciplina Desenvolvimento de Aplicações Corporativa Avançada - DACA em Spring Boot 2016.1
+
 Endereço da aplicação online - projetodirlididi-wendleypf.rhcloud.com 
 Endereço do jenkins/travis - https://jenkinsdaca-wendleypf.rhcloud.com/
 	Login : admin
