@@ -1,36 +1,54 @@
 package dirlididi.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity(name = "Problema")
+@Table(name = "tb_problema")
 public class Problema implements Comparable<Problema> {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column
 	private String proprietario;
-
+	@Column
 	private String nome;
-
+	@Column
 	private String descricao;
-
+	@Column
 	private String codigo;
-
+	@Column
 	private String dica;
-
+	@Column
 	private boolean isPrivado;
-
-	private Date dataCriacao;
-
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data")
+	private Calendar dataDeCriacao;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Teste> testes = new ArrayList<>();
 
-	public Problema(String proprietario, String nome, String descricao, String codigo, String dica, boolean isPrivado,
-			ArrayList<Teste> testes) {
-		this.proprietario = proprietario;
-		this.nome = nome;
-		this.descricao = descricao;
-		this.codigo = codigo;
-		this.dica = dica;
-		this.isPrivado = isPrivado;
-		this.dataCriacao = new Date();
-		this.testes = testes;
+	public Problema() {
+		setDataDeCriacao(Calendar.getInstance());
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getProprietario() {
@@ -81,12 +99,12 @@ public class Problema implements Comparable<Problema> {
 		this.isPrivado = isPrivado;
 	}
 
-	public Date getDataCriacao() {
-		return dataCriacao;
+	public Calendar getDataDeCriacao() {
+		return dataDeCriacao;
 	}
 
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
+	public void setDataDeCriacao(Calendar dataDeCriacao) {
+		this.dataDeCriacao = dataDeCriacao;
 	}
 
 	public List<Teste> getTestes() {
@@ -99,6 +117,6 @@ public class Problema implements Comparable<Problema> {
 
 	@Override
 	public int compareTo(Problema p) {
-		return getDataCriacao().compareTo(p.getDataCriacao());
+		return getDataDeCriacao().compareTo(p.getDataDeCriacao());
 	}
 }

@@ -1,37 +1,51 @@
 package dirlididi.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity(name = "Solucao")
+@Table(name = "tb_solucao")
 public class Solucao {
-	private String emailDoProprietario;
-
-	private String codigoProblema;
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@OneToOne
+	private Normal proprietarioDaSolucao;
+	@Column
 	private String corpoSolucao;
-
+	@Column
 	private String entrada;
-
+	@Column
 	private String saida;
 
 	public Solucao(String corpoSolucao, String entrada, String saida) {
-		super();
 		this.corpoSolucao = corpoSolucao;
 		this.entrada = entrada;
 		this.saida = saida;
 	}
 
-	public String getEmailDoProprietario() {
-		return emailDoProprietario;
+	public Solucao() {
 	}
 
-	public void setEmailDoProprietario(String emailDoProprietario) {
-		this.emailDoProprietario = emailDoProprietario;
+	public Long getId() {
+		return id;
 	}
 
-	public String getCodigoProblema() {
-		return codigoProblema;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setCodigoProblema(String codigoProblema) {
-		this.codigoProblema = codigoProblema;
+	public Normal getProprietarioDaSolucao() {
+		return proprietarioDaSolucao;
+	}
+
+	public void setProprietarioDaSolucao(Normal proprietarioDaSolucao) {
+		this.proprietarioDaSolucao = proprietarioDaSolucao;
 	}
 
 	public String getCorpoSolucao() {

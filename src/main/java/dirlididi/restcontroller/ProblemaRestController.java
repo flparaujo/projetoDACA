@@ -20,90 +20,89 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class ProblemaRestController {
-	
+
 	private List<Problema> listProblema = new ArrayList<>();
 
 	@ApiOperation(value = "Lista todos os problemas")
-    @RequestMapping(value = "/api/problem/", method = RequestMethod.GET)
-    public List<Problema> getProblemas() {
-	List<Problema> listAuxProblema = new ArrayList<>();
+	@RequestMapping(value = "/api/problem/", method = RequestMethod.GET)
+	public List<Problema> getProblemas() {
+		List<Problema> listAuxProblema = new ArrayList<>();
 
-	for (Problema problema : listProblema) {
-	    if (!problema.isPrivado()) {
-		listAuxProblema.add(problema);
-	    }
+		for (Problema problema : listProblema) {
+			if (!problema.isPrivado()) {
+				listAuxProblema.add(problema);
+			}
+		}
+
+		Collections.sort(listAuxProblema, new Comparator<Problema>() {
+			@Override
+			public int compare(Problema p1, Problema p2) {
+				return p1.getDataDeCriacao().compareTo(p2.getDataDeCriacao());
+			}
+		});
+
+		return listAuxProblema;
 	}
 
-	Collections.sort(listAuxProblema, new Comparator<Problema>() {
-	    @Override
-	    public int compare(Problema p1, Problema p2) {
-		return p1.getDataCriacao().compareTo(p2.getDataCriacao());
-	    }
-	});
-
-	return listAuxProblema;
-    }
-	
 	@ApiOperation(value = "Retorna uma lista de problemas em um bloco de tamanho 100")
-    @RequestMapping(value = "/api/problem/pagination/", method = RequestMethod.GET, params = { "numeroDaPagina" })
-    public List<Problema> getProblemasPaginados(@RequestParam(value = "numeroDaPagina") Integer numeroDaPagina) {
-	List<Problema> listAuxProblema = new ArrayList<>();
+	@RequestMapping(value = "/api/problem/pagination/", method = RequestMethod.GET, params = { "numeroDaPagina" })
+	public List<Problema> getProblemasPaginados(@RequestParam(value = "numeroDaPagina") Integer numeroDaPagina) {
+		List<Problema> listAuxProblema = new ArrayList<>();
 
-	for (Problema problema : listProblema) {
-	    if (!problema.isPrivado()) {
-		listAuxProblema.add(problema);
-	    }
+		for (Problema problema : listProblema) {
+			if (!problema.isPrivado()) {
+				listAuxProblema.add(problema);
+			}
+		}
+
+		Collections.sort(listAuxProblema, new Comparator<Problema>() {
+			@Override
+			public int compare(Problema p1, Problema p2) {
+				return p1.getDataDeCriacao().compareTo(p2.getDataDeCriacao());
+			}
+		});
+
+		return listAuxProblema.subList(0, listAuxProblema.size());
 	}
 
-	Collections.sort(listAuxProblema, new Comparator<Problema>() {
-	    @Override
-	    public int compare(Problema p1, Problema p2) {
-		return p1.getDataCriacao().compareTo(p2.getDataCriacao());
-	    }
-	});
-
-	return listAuxProblema.subList(0, listAuxProblema.size());
-    }
-
-    @ApiOperation(value = "Pesquisa um problema")
-    @RequestMapping(value = "/api/problem/", method = RequestMethod.GET, params = { "codigo" })
-    public Problema getProblema(@RequestParam(value = "codigo") String codigo) {
-	for (Problema problema : listProblema) {
-	    if (problema.getCodigo().equals(codigo) && !problema.isPrivado()) {
-		return problema;
-	    }
+	@ApiOperation(value = "Pesquisa um problema")
+	@RequestMapping(value = "/api/problem/", method = RequestMethod.GET, params = { "codigo" })
+	public Problema getProblema(@RequestParam(value = "codigo") String codigo) {
+		for (Problema problema : listProblema) {
+			if (problema.getCodigo().equals(codigo) && !problema.isPrivado()) {
+				return problema;
+			}
+		}
+		return null;
 	}
-	return null;
-    }
 
-    @ApiOperation(value = "Lista os problemas que o usuario resolveu")
-    @RequestMapping(value = "/api/solved/", method = RequestMethod.GET)
-    public Map<String, Boolean> getProblemasResolvidos() {
-	Map<String, Boolean> problemasResolvidos = new HashMap<String, Boolean>();
+	@ApiOperation(value = "Lista os problemas que o usuario resolveu")
+	@RequestMapping(value = "/api/solved/", method = RequestMethod.GET)
+	public Map<String, Boolean> getProblemasResolvidos() {
+		Map<String, Boolean> problemasResolvidos = new HashMap<String, Boolean>();
 
-	problemasResolvidos.put("Q8lIaDijI", true);
-	problemasResolvidos.put("Q4wuqKxnM", true);
+		problemasResolvidos.put("Q8lIaDijI", true);
+		problemasResolvidos.put("Q4wuqKxnM", true);
 
-	return problemasResolvidos;
-    }
+		return problemasResolvidos;
+	}
 
-    @ApiOperation(value = "Cadastrar um problema")
-    @RequestMapping(value = "/api/problem/", method = RequestMethod.POST)
-    public String criarProblema(@RequestBody Problema problema) {
-	return "";
-    }
+	@ApiOperation(value = "Cadastrar um problema")
+	@RequestMapping(value = "/api/problem/", method = RequestMethod.POST)
+	public String criarProblema(@RequestBody Problema problema) {
+		return "";
+	}
 
-    @ApiOperation(value = "Editar um problema")
-    @RequestMapping(value = "/api/problem/{id}", method = RequestMethod.PUT)
-    public String editarProblema(@PathVariable String id, @RequestBody Problema problema) {
-	return "";
-    }
+	@ApiOperation(value = "Editar um problema")
+	@RequestMapping(value = "/api/problem/{id}", method = RequestMethod.PUT)
+	public String editarProblema(@PathVariable String id, @RequestBody Problema problema) {
+		return "";
+	}
 
-    @ApiOperation(value = "Submeter uma solucao")
-    @RequestMapping(value = "/api/solved/", method = RequestMethod.POST)
-    public List<?> submeterSolucao(@RequestBody Solucao solucao) {
-	return null;
-    }
-
+	@ApiOperation(value = "Submeter uma solucao")
+	@RequestMapping(value = "/api/solved/", method = RequestMethod.POST)
+	public List<?> submeterSolucao(@RequestBody Solucao solucao) {
+		return null;
+	}
 
 }

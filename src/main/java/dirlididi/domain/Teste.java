@@ -1,34 +1,38 @@
 package dirlididi.domain;
 
-import java.util.Date;
+import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-@Entity
-@Table
+@Entity(name = "Teste")
+@Table(name = "tb_teste")
 public class Teste {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	@Transient
 	private String proprietario;
-	@Transient
+	@Column
 	private String nome;
-	@Transient
+	@Column
 	private String dica;
-	@Transient
+	@Column
 	private String entrada;
-	@Transient
+	@Column
 	private String saida;
-	@Transient
+	@Column
 	private boolean isPrivado;
-	@Transient
-	private Date data;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data")
+	private Calendar dataDeCriacao;
 
 	public Teste(String nome, String dica, String entrada, String saida, boolean isPrivado) {
 		this.nome = nome;
@@ -36,7 +40,19 @@ public class Teste {
 		this.entrada = entrada;
 		this.saida = saida;
 		this.isPrivado = isPrivado;
-		this.data = new Date();
+		setDataDeCriacao(Calendar.getInstance());
+	}
+
+	public Teste() {
+		setDataDeCriacao(Calendar.getInstance());
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getProprietario() {
@@ -90,12 +106,12 @@ public class Teste {
 		this.isPrivado = isPrivado;
 	}
 
-	public Date getData() {
-		return data;
+	public Calendar getDataDeCriacao() {
+		return dataDeCriacao;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setDataDeCriacao(Calendar dataDeCriacao) {
+		this.dataDeCriacao = dataDeCriacao;
 	}
 
 }
