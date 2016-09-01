@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,8 +22,8 @@ public class Problema implements Comparable<Problema> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Column
-	private String proprietario;
+	@OneToOne
+	private Administrador proprietario;
 	@Column
 	private String nome;
 	@Column
@@ -51,11 +52,11 @@ public class Problema implements Comparable<Problema> {
 		this.id = id;
 	}
 
-	public String getProprietario() {
+	public Administrador getProprietario() {
 		return proprietario;
 	}
 
-	public void setProprietario(String proprietario) {
+	public void setProprietario(Administrador proprietario) {
 		this.proprietario = proprietario;
 	}
 
