@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,34 +17,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dirlididi.domain.Problema;
 import dirlididi.domain.Solucao;
+import dirlididi.repositories.ProblemaRepository;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class ProblemaRestController {
-
+	@Autowired
+	private ProblemaRepository problemaRepository;
 	private List<Problema> listProblema = new ArrayList<>();
 
 	@ApiOperation(value = "Lista todos os problemas")
 	@RequestMapping(value = "/api/problem/", method = RequestMethod.GET)
 	public List<Problema> getProblemas() {
-		List<Problema> listAuxProblema = new ArrayList<>();
-
-		for (Problema problema : listProblema) {
-			if (!problema.isPrivado()) {
-				listAuxProblema.add(problema);
-			}
-		}
-
-		Collections.sort(listAuxProblema, new Comparator<Problema>() {
-			@Override
-			public int compare(Problema p1, Problema p2) {
-				return p1.getDataDeCriacao().compareTo(p2.getDataDeCriacao());
-			}
-		});
-
-		return listAuxProblema;
+		return problemaRepository.findAllPublic();
 	}
 
+	/**
+	 * Revisar
+	 * 
+	 * @param numeroDaPagina
+	 * @return
+	 */
 	@ApiOperation(value = "Retorna uma lista de problemas em um bloco de tamanho 100")
 	@RequestMapping(value = "/api/problem/pagination/", method = RequestMethod.GET, params = { "numeroDaPagina" })
 	public List<Problema> getProblemasPaginados(@RequestParam(value = "numeroDaPagina") Integer numeroDaPagina) {
@@ -67,13 +61,8 @@ public class ProblemaRestController {
 
 	@ApiOperation(value = "Pesquisa um problema")
 	@RequestMapping(value = "/api/problem/", method = RequestMethod.GET, params = { "codigo" })
-	public Problema getProblema(@RequestParam(value = "codigo") String codigo) {
-		for (Problema problema : listProblema) {
-			if (problema.getCodigo().equals(codigo) && !problema.isPrivado()) {
-				return problema;
-			}
-		}
-		return null;
+	public Problema getProblema(@RequestParam(value = "codigo") Long id) {
+		return problemaRepository.findById(id);
 	}
 
 	@ApiOperation(value = "Lista os problemas que o usuario resolveu")
@@ -89,8 +78,8 @@ public class ProblemaRestController {
 
 	@ApiOperation(value = "Cadastrar um problema")
 	@RequestMapping(value = "/api/problem/", method = RequestMethod.POST)
-	public String criarProblema(@RequestBody Problema problema) {
-		return "";
+	public Problema criarProblema(@RequestBody Problema problema) {
+		return problemaRepository.save(problema);
 	}
 
 	@ApiOperation(value = "Editar um problema")

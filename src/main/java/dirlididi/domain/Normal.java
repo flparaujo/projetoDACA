@@ -1,5 +1,6 @@
 package dirlididi.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,8 @@ import javax.persistence.Table;
 
 @Entity(name = "Normal")
 @Table(name = "tb_user_normal")
-public class Normal extends Usuario {
+public class Normal extends Usuario implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Problema> problemas;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -20,6 +22,10 @@ public class Normal extends Usuario {
 		super(email, senha);
 		this.problemas = new ArrayList<>();
 		this.solucoes = new ArrayList<>();
+	}
+
+	public Normal() {
+
 	}
 
 	public List<Problema> getProblemas() {
