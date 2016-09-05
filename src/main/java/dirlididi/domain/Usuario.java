@@ -1,6 +1,8 @@
 package dirlididi.domain;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,10 +22,14 @@ public abstract class Usuario {
 	@Column
 	@JsonIgnore
 	private String senha;
+	@Column
+	@Enumerated(EnumType.STRING)
+	private TipoUsuario tipo;
 
-	public Usuario(String email, String senha) {
+	public Usuario(String email, String senha, TipoUsuario tipo) {
 		this.email = email;
 		this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
+		this.tipo = tipo;
 	}
 
 	public Usuario() {
@@ -56,6 +62,14 @@ public abstract class Usuario {
 
 	public boolean checkSenha(String senha) {
 		return BCrypt.checkpw(senha, this.senha);
+	}
+
+	public TipoUsuario getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoUsuario tipo) {
+		this.tipo = tipo;
 	}
 
 }

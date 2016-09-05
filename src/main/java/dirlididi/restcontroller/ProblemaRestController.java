@@ -60,8 +60,8 @@ public class ProblemaRestController {
 	}
 
 	@ApiOperation(value = "Pesquisa um problema")
-	@RequestMapping(value = "/api/problem/", method = RequestMethod.GET, params = { "codigo" })
-	public Problema getProblema(@RequestParam(value = "codigo") Long id) {
+	@RequestMapping(value = "/api/problem/{id}", method = RequestMethod.GET)
+	public Problema getProblema(@PathVariable Long id) {
 		return problemaRepository.findById(id);
 	}
 
@@ -75,13 +75,22 @@ public class ProblemaRestController {
 
 		return problemasResolvidos;
 	}
-
+	/**
+	 * Admin
+	 * @param problema
+	 * @return
+	 */
 	@ApiOperation(value = "Cadastrar um problema")
 	@RequestMapping(value = "/api/problem/", method = RequestMethod.POST)
 	public Problema criarProblema(@RequestBody Problema problema) {
 		return problemaRepository.save(problema);
 	}
-
+	/**
+	 * Admin
+	 * @param id
+	 * @param problema
+	 * @return
+	 */
 	@ApiOperation(value = "Editar um problema")
 	@RequestMapping(value = "/api/problem/{id}", method = RequestMethod.PUT)
 	public String editarProblema(@PathVariable String id, @RequestBody Problema problema) {

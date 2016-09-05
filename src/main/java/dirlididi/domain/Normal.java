@@ -19,7 +19,7 @@ public class Normal extends Usuario implements Serializable {
 	private List<Solucao> solucoes;
 
 	public Normal(String email, String senha) {
-		super(email, senha);
+		super(email, senha, TipoUsuario.NORMAL);
 		this.problemas = new ArrayList<>();
 		this.solucoes = new ArrayList<>();
 	}
