@@ -17,7 +17,7 @@ public abstract class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Column
+	@Column(nullable = false, unique = true)
 	private String email;
 	@Column
 	@JsonIgnore
@@ -28,7 +28,8 @@ public abstract class Usuario {
 
 	public Usuario(String email, String senha, TipoUsuario tipo) {
 		this.email = email;
-		this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
+		this.senha = senha;
+		//this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
 		this.tipo = tipo;
 	}
 
@@ -56,8 +57,8 @@ public abstract class Usuario {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
-		;
+		//this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
+		this.senha = senha;
 	}
 
 	public boolean checkSenha(String senha) {
