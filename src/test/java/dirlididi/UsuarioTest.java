@@ -30,8 +30,10 @@ public class UsuarioTest {
     
     private Normal usuarioNormal;
     
+    private Gson gson = new Gson();
+    
     @Before
-    public void setup(){
+    public void setUp(){
         usuarioNormal = new Normal("usuario.normal@gmail.com", "99999999");
         normalRepository.save(usuarioNormal);
     }
@@ -43,17 +45,15 @@ public class UsuarioTest {
     
     @Test
     public void testCadastrarUsuario() throws Exception {
-        Gson gson = new Gson();
-        Normal usuarioNormal = new Normal("usuarioanormal@gmail.com", "000000000000");
-
-        given()
-                .contentType(ContentType.JSON)
-                .body(gson.toJson(usuarioNormal))
+    	
+    	Normal novoUsuario = new Normal("normalzinho@gmail.com", "muitofulodavida");
+        given().contentType(ContentType.JSON)
+                .body(gson.toJson(novoUsuario))
                 .when()
                 .port(this.port)
                 .post("/api/user")
                 .then().assertThat()
-                .body("email", Matchers.is(usuarioNormal.getEmail()));
+                .body("email", Matchers.is(novoUsuario.getEmail()));
     }
 
     @Test
@@ -67,7 +67,46 @@ public class UsuarioTest {
     }
     
     @Test
-    public void testGetUsuarioPeloID() {
+    public void testAtualizarUsuario() {
     	
+    	usuarioNormal.setEmail("usuarioMaluco@gmail.com");
+    	
+    	given().contentType(ContentType.JSON)
+    	.body(gson.toJson(usuarioNormal))
+    	.when()
+        .port(this.port)
+        .put("/api/user/{id}", usuarioNormal.getId())
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_OK)
+        .body("email", Matchers.is("usuarioMaluco@gmail.com"));
+    }
+    
+    @Test
+    public void testDeletarUsuario() {
+    	
+    	given()
+    	.when()
+        .port(this.port)
+        .delete("/api/user/{id}", usuarioNormal.getId())
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
+    
+    @Test
+    public void testTentarDeletarUsuarioInexistente() {
+    	given()
+    	.when()
+        .port(this.port)
+        .delete("/api/user/{id}", usuarioNormal.getId());
+    	
+    	given()
+    	.when()
+        .port(this.port)
+        .delete("/api/user/{id}", usuarioNormal.getId())
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
