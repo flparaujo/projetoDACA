@@ -20,7 +20,7 @@ import com.jayway.restassured.http.ContentType;
 @SpringApplicationConfiguration(classes = DirlididApplication.class)
 @WebIntegrationTest("server.port=0")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UsuarioTest {
+public class UsuarioRestTest {
 	
 	@Value("${local.server.port}")
     private int port;
