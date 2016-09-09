@@ -48,12 +48,11 @@ public class UsuarioTest {
 
         given()
                 .contentType(ContentType.JSON)
-                .body(gson.toJson(usuarioNormal))
                 .when()
                 .port(this.port)
-                .post("/api/user")
+                .post("/api/user?email=email@jssl.com&senha=123345454545")
                 .then().assertThat()
-                .body("email", Matchers.is(usuarioNormal.getEmail()));
+                .body("email", Matchers.is("email@jssl.com"));
     }
 
     @Test
