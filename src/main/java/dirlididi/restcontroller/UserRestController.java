@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dirlididi.domain.Normal;
@@ -26,10 +25,9 @@ public class UserRestController {
 	private NormalServiceImpl normalService;
 
 	@ApiOperation(value = "Cadastrar um usuario")
-	@RequestMapping(value = "/api/user", method = RequestMethod.POST, params = { "email", "senha" })
-	public Normal cadastrarUsuario(@RequestParam(value = "email") String email,
-			@RequestParam(value = "senha") String senha) {
-		return normalRepository.save(new Normal(email, senha));
+	@RequestMapping(value = "/api/user", method = RequestMethod.POST)
+	public Normal cadastrarUsuario(@RequestBody Normal normal) {
+		return normalRepository.save(normal);
 	}
 
 	@ApiOperation(value = "Atualizar um usuario")
