@@ -42,10 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService());
-		
-		//auth
-          //  .inMemoryAuthentication()
-            //    .withUser("user").password("password").roles("NORMAL");
     }
 	 
 	 @Bean
@@ -57,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			@Override
 			public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 				Normal usuario = normalRepository.findNormalByEmail(email);
-				//System.out.println(usuario.getTipo().toString());
 				  if (usuario != null) {
 	                    return new User(usuario.getEmail(), usuario.getSenha(), true, true, true, true,
 	                            AuthorityUtils.createAuthorityList("NORMAL"));

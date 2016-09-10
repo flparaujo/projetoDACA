@@ -17,7 +17,7 @@ public class UsuariosLoader implements ApplicationListener<ContextRefreshedEvent
 	public void setAdministradorRepository(AdministradorRepository administradorRepository) {
 		this.administradorRepository = administradorRepository;
 	}
-	
+
 	@Autowired
 	public void setNormalRepository(NormalRepository normalRepository) {
 		this.normalRepository = normalRepository;
@@ -31,8 +31,9 @@ public class UsuariosLoader implements ApplicationListener<ContextRefreshedEvent
 				administradorRepository.save(admin);
 			}
 		}
-		Normal normalZinho = new Normal("normalzinho@kkk.com", "muitofulodavida");
-		normalRepository.save(normalZinho);
+		
+		Normal normal = new Normal("kgb@kkk.com", "bolsonaromito");
+		normalRepository.save(normal);
 	}
 
 }

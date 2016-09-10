@@ -1,17 +1,19 @@
 package dirlididi.restcontroller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import dirlididi.DTO.EstatisticasUserDTO;
 import dirlididi.DTO.EstisticasGlobalDTO;
 import dirlididi.domain.Normal;
+import dirlididi.repositories.NormalRepository;
 import dirlididi.repositories.ProblemaRepository;
 import dirlididi.repositories.SolucaoRepository;
+import dirlididi.util.Util;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -20,26 +22,26 @@ public class StatisticsRestController {
 	private ProblemaRepository problemaRepository;
 	@Autowired
 	private SolucaoRepository solucaoRepository;
-
-	private Normal usuarioLogado = new Normal("xpto@kkk.com", "Pi141516");
+	@Autowired
+	private NormalRepository normalRepository;
 
 	@ApiOperation(value = "Retorna as estatisticas globais")
 	@RequestMapping(value = "/api/stats/global", method = RequestMethod.GET)
-	public EstisticasGlobalDTO getEstatisticasGlobais() {
+	public ResponseEntity<EstisticasGlobalDTO> getEstatisticasGlobais() {
 		EstisticasGlobalDTO estatisticasGlobal = new EstisticasGlobalDTO(solucaoRepository.findAll(),
 				problemaRepository.findAll());
 
-		return estatisticasGlobal;
+		return new ResponseEntity<>(estatisticasGlobal, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Retorna as estatisticas do usuario")
 	@RequestMapping(value = "/api/stats/user", method = RequestMethod.GET)
-	public Map<String, Integer> getEstatisticarDoUsuario() {
-		Map<String, Integer> estatisticasDoUsuario = new HashMap<String, Integer>();
+	public ResponseEntity<EstatisticasUserDTO> getEstatisticarDoUsuario() {
+		Normal usuarioLogado = normalRepository.findNormalByEmail(Util.userNameUsuarioLogado());
 
-		estatisticasDoUsuario.put("pass", usuarioLogado.getSolucoes().size());
+		EstatisticasUserDTO estatisticasDoUsuario = new EstatisticasUserDTO(usuarioLogado.getSolucoes());
 
-		return estatisticasDoUsuario;
+		return new ResponseEntity<>(estatisticasDoUsuario, HttpStatus.OK);
 	}
 
 }
