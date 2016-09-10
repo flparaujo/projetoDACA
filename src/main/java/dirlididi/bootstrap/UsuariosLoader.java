@@ -5,16 +5,22 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import dirlididi.domain.Administrador;
-import dirlididi.repositories.AdministradorRepository;
+import dirlididi.domain.*;
+import dirlididi.repositories.*;
 
 @Component
 public class UsuariosLoader implements ApplicationListener<ContextRefreshedEvent> {
 	private AdministradorRepository administradorRepository;
+	private NormalRepository normalRepository;
 
 	@Autowired
 	public void setAdministradorRepository(AdministradorRepository administradorRepository) {
 		this.administradorRepository = administradorRepository;
+	}
+	
+	@Autowired
+	public void setNormalRepository(NormalRepository normalRepository) {
+		this.normalRepository = normalRepository;
 	}
 
 	@Override
@@ -25,6 +31,8 @@ public class UsuariosLoader implements ApplicationListener<ContextRefreshedEvent
 				administradorRepository.save(admin);
 			}
 		}
+		Normal normalZinho = new Normal("normalzinho@kkk.com", "muitofulodavida");
+		normalRepository.save(normalZinho);
 	}
 
 }

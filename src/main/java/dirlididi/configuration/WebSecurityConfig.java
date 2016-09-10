@@ -41,11 +41,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.userDetailsService(userDetailsService());
+		auth.userDetailsService(userDetailsService());
 		
-		auth
-            .inMemoryAuthentication()
-                .withUser("user").password("password").roles("NORMAL");
+		//auth
+          //  .inMemoryAuthentication()
+            //    .withUser("user").password("password").roles("NORMAL");
     }
 	 
 	 @Bean
