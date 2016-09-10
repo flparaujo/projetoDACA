@@ -1,7 +1,6 @@
 package dirlididi;
 
 import org.apache.http.HttpStatus;
-import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import dirlididi.repositories.NormalRepository;
 
 import com.google.gson.*;
 import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
 
 @SpringApplicationConfiguration(classes = DirlididApplication.class)
 @WebIntegrationTest("server.port=0")
@@ -31,8 +29,6 @@ public class StatistcsRestTest {
     
     @Autowired
     private NormalRepository normalRepository;
-    
-    private Gson gson = new Gson();
     
     @Before
     public void setUp(){
