@@ -1,19 +1,23 @@
 package dirlididi;
 
+import static com.jayway.restassured.RestAssured.basic;
+import static com.jayway.restassured.RestAssured.given;
+
 import org.apache.http.HttpStatus;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import static com.jayway.restassured.RestAssured.*;
-
-import dirlididi.domain.*;
-import dirlididi.repositories.NormalRepository;
 
 import com.jayway.restassured.RestAssured;
+
+import dirlididi.domain.Normal;
+import dirlididi.repositories.NormalRepository;
 
 @SpringApplicationConfiguration(classes = DirlididApplication.class)
 @WebIntegrationTest("server.port=0")
