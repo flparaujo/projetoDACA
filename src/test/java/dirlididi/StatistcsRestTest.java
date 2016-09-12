@@ -13,7 +13,6 @@ import static com.jayway.restassured.RestAssured.*;
 import dirlididi.domain.*;
 import dirlididi.repositories.NormalRepository;
 
-import com.google.gson.*;
 import com.jayway.restassured.RestAssured;
 
 @SpringApplicationConfiguration(classes = DirlididApplication.class)

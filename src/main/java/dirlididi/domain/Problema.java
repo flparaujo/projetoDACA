@@ -39,8 +39,15 @@ public class Problema implements Comparable<Problema> {
 	private Calendar dataDeCriacao;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Teste> testes = new ArrayList<>();
-
+	
 	public Problema() {
+		setDataDeCriacao(Calendar.getInstance());
+	}
+	
+	public Problema(String nome, String descricao, Administrador proprietario) {
+		setNome(nome);
+		setDescricao(descricao);
+		setProprietario(proprietario);
 		setDataDeCriacao(Calendar.getInstance());
 	}
 
