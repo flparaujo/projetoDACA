@@ -12,12 +12,8 @@ public class NormalServiceImpl {
 	private NormalRepository normalRepository;
 
 	public void updateNormal(Normal normal) {
-		if (isNormalExist(normal)) {
+		if (normalRepository.exists(normal.getId())) {
 			normalRepository.save(normal);
 		}
-	}
-
-	public boolean isNormalExist(Normal normal) {
-		return normalRepository.exists(normal.getId());
 	}
 }

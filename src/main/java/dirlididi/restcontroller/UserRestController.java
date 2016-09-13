@@ -1,10 +1,17 @@
 package dirlididi.restcontroller;
 
+import java.util.Collections;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import dirlididi.domain.Normal;
-import dirlididi.domain.Usuario;
 import dirlididi.repositories.NormalRepository;
 import dirlididi.services.NormalServiceImpl;
 import io.swagger.annotations.ApiOperation;
@@ -65,10 +71,23 @@ public class UserRestController {
 		return normalRepository.findAll();
 	}
 
-	@ApiOperation(value = "Lista os usuários que mais enviaram soluções")
+	@ApiOperation(value = "Lista os 10 usuários que mais enviaram soluções")
 	@RequestMapping(value = "/api/rank/", method = RequestMethod.GET)
-	public List<Usuario> getUsuariosQueMaisResolveram() {
-		// TODO
-		return null;
+	public ResponseEntity<List<Normal>> getUsuariosQueMaisResolveram() {
+		List<Normal> listNormal = normalRepository.findAll();
+		if (listNormal.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		Collections.sort(listNormal);
+		return new ResponseEntity<>(listNormal.subList(0, 10), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    return "redirect:/";
 	}
 }

@@ -29,8 +29,6 @@ public class Problema implements Comparable<Problema> {
 	@Column
 	private String descricao;
 	@Column
-	private String codigo;
-	@Column
 	private String dica;
 	@Column
 	private boolean isPrivado;
@@ -39,11 +37,11 @@ public class Problema implements Comparable<Problema> {
 	private Calendar dataDeCriacao;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Teste> testes = new ArrayList<>();
-	
+
 	public Problema() {
 		setDataDeCriacao(Calendar.getInstance());
 	}
-	
+
 	public Problema(String nome, String descricao, Administrador proprietario) {
 		setNome(nome);
 		setDescricao(descricao);
@@ -81,14 +79,6 @@ public class Problema implements Comparable<Problema> {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
 	}
 
 	public String getDica() {
