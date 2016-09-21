@@ -32,7 +32,7 @@ public class UsuariosLoader implements ApplicationListener<ContextRefreshedEvent
 			}
 		}
 		
-		Normal normal = new Normal("kgb@kkk.com", "bolsonaromito");
+		Normal normal = new Normal("wendley@redefacista.com", "teadorobolsomito");
 		normalRepository.save(normal);
 	}
 
