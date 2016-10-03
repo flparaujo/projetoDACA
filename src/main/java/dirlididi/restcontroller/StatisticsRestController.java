@@ -17,6 +17,7 @@ import dirlididi.util.Util;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@SuppressWarnings("javadoc")
 public class StatisticsRestController {
 	@Autowired
 	private ProblemaRepository problemaRepository;

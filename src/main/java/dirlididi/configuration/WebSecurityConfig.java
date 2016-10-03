@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 	.antMatchers(HttpMethod.POST,"/api/solved/").hasAnyAuthority("NORMAL")
 		 	.antMatchers(HttpMethod.POST,"/api/problem/").hasAnyAuthority("ADMIN")
 		 	.antMatchers(HttpMethod.PUT,"/api/problem/").hasAnyAuthority("ADMIN")
-		 	.antMatchers("/h2-console/**").permitAll()
+		 	.antMatchers("/h2-console/**","/monitoring").permitAll()
 		.and()
 		.csrf()
 		 	.disable();

@@ -24,6 +24,7 @@ import dirlididi.services.NormalServiceImpl;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@SuppressWarnings("javadoc")
 public class UserRestController {
 	@Autowired
 	private NormalRepository normalRepository;
