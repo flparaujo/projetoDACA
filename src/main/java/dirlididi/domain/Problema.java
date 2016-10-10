@@ -1,5 +1,6 @@
 package dirlididi.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Problema")
 @Table(name = "tb_problema")
@@ -32,9 +36,12 @@ public class Problema implements Comparable<Problema> {
 	private String dica;
 	@Column
 	private boolean isPrivado;
+	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data")
 	private Calendar dataDeCriacao;
+	@Transient
+	private String dataCriacao;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Teste> testes = new ArrayList<>();
 
@@ -99,6 +106,12 @@ public class Problema implements Comparable<Problema> {
 
 	public Calendar getDataDeCriacao() {
 		return dataDeCriacao;
+	}
+
+	public String getData() {
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		this.dataCriacao = formato.format(getDataDeCriacao().getTime());
+		return dataCriacao;
 	}
 
 	public void setDataDeCriacao(Calendar dataDeCriacao) {

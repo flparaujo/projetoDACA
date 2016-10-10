@@ -1,13 +1,12 @@
 package dirlididi.restcontroller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +35,11 @@ public class ProblemaRestController {
 	private NormalRepository normalRepository;
 	private Normal usuarioLogado;
 
-	private List<Problema> listProblema = new ArrayList<>();
-
 	public void setUsuarioLogado(Normal usuarioLogado) {
 		this.usuarioLogado = normalRepository.findNormalByEmail(Util.userNameUsuarioLogado());
 	}
 
+	@CrossOrigin
 	@ApiOperation(value = "Lista todos os problemas")
 	@RequestMapping(value = "/api/problem/", method = RequestMethod.GET)
 	public List<Problema> getProblemas() {
@@ -54,27 +52,16 @@ public class ProblemaRestController {
 	 * @param numeroDaPagina
 	 * @return
 	 */
+	@CrossOrigin
 	@ApiOperation(value = "Retorna uma lista de problemas em um bloco de tamanho 100")
-	@RequestMapping(value = "/api/problem/pagination/", method = RequestMethod.GET, params = { "numeroDaPagina" })
-	public List<Problema> getProblemasPaginados(@RequestParam(value = "numeroDaPagina") Integer numeroDaPagina) {
-		List<Problema> listAuxProblema = new ArrayList<>();
-
-		for (Problema problema : listProblema) {
-			if (!problema.isPrivado()) {
-				listAuxProblema.add(problema);
-			}
-		}
-
-		Collections.sort(listAuxProblema, new Comparator<Problema>() {
-			@Override
-			public int compare(Problema p1, Problema p2) {
-				return p1.getDataDeCriacao().compareTo(p2.getDataDeCriacao());
-			}
-		});
-
-		return listAuxProblema.subList(0, listAuxProblema.size());
+	@RequestMapping(value = "/api/problem/pagination/", method = RequestMethod.GET, params = { "startIndex",
+			"endIndex" })
+	public List<Problema> getProblemasPaginados(@RequestParam(value = "startIndex") Integer startIndex,
+			@RequestParam(value = "endIndex") Integer endIndex) {
+		return problemaRepository.findAllPublic().subList(startIndex, endIndex);
 	}
 
+	@CrossOrigin
 	@ApiOperation(value = "Pesquisa um problema")
 	@RequestMapping(value = "/api/problem/{id}", method = RequestMethod.GET)
 	public Problema getProblema(@PathVariable Long id) {

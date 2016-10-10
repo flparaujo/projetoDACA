@@ -3,6 +3,7 @@ package dirlididi.restcontroller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,8 @@ public class StatisticsRestController {
 	private SolucaoRepository solucaoRepository;
 	@Autowired
 	private NormalRepository normalRepository;
-
+	
+	@CrossOrigin
 	@ApiOperation(value = "Retorna as estatisticas globais")
 	@RequestMapping(value = "/api/stats/global", method = RequestMethod.GET)
 	public ResponseEntity<EstisticasGlobalDTO> getEstatisticasGlobais() {
@@ -34,7 +36,7 @@ public class StatisticsRestController {
 
 		return new ResponseEntity<>(estatisticasGlobal, HttpStatus.OK);
 	}
-
+	@CrossOrigin
 	@ApiOperation(value = "Retorna as estatisticas do usuario")
 	@RequestMapping(value = "/api/stats/user", method = RequestMethod.GET)
 	public ResponseEntity<EstatisticasUserDTO> getEstatisticarDoUsuario() {
