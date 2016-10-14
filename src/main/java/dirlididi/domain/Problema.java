@@ -43,10 +43,11 @@ public class Problema implements Comparable<Problema> {
 	@Transient
 	private String dataCriacao;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Teste> testes = new ArrayList<>();
+	private List<Teste> testes;
 
 	public Problema() {
 		setDataDeCriacao(Calendar.getInstance());
+		this.testes = new ArrayList<>();
 	}
 
 	public Problema(String nome, String descricao, Administrador proprietario) {
@@ -54,6 +55,7 @@ public class Problema implements Comparable<Problema> {
 		setDescricao(descricao);
 		setProprietario(proprietario);
 		setDataDeCriacao(Calendar.getInstance());
+		this.testes = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -124,6 +126,12 @@ public class Problema implements Comparable<Problema> {
 
 	public void setTestes(List<Teste> testes) {
 		this.testes = testes;
+	}
+
+	public void setTeste(Teste teste) {
+		if (teste != null) {
+			testes.add(teste);
+		}
 	}
 
 	@Override
